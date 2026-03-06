@@ -1,0 +1,160 @@
+import React from "react";
+
+export default function TextField({ label, value, onChange,
+ placeholder = "Type here..." }) {
+  return (
+    <div className="flex flex-col gap-1">
+      <label className="text-white font-semibold">{label}:</label>
+      <input
+        type="text"
+        value={value}                  // controlled by parent
+        onChange={(e) => onChange(e.target.value)} // send value to parent
+        placeholder={placeholder}
+        className="px-3 py-2 rounded-md border border-gray-300
+         focus:outline-none focus:ring-2 
+         focus:ring-indigo-400 w-64 text-black"
+      />
+    </div>
+  );
+}
+
+import React, { useState } from "react";
+import TextField from "./TextField";
+
+export default function Feedback() {
+  // store all textfield values in parent state
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
+
+  const handleChange = (field) => (value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = () => {
+    console.log("Form Data:", formData); // all values together
+    setFormData({ name: "", email: "", message: "" }); // optional reset
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center 
+    min-h-screen gap-4 bg-gray-900 text-white">
+      <h1 className="text-4xl font-bold">Feedback Form</h1>
+
+      <div className="flex flex-col gap-3">
+        <TextField
+          label="Name"
+          value={formData.name}
+          onChange={handleChange("name")}
+        />
+        <TextField
+          label="Email"
+          value={formData.email}
+          onChange={handleChange("email")}
+        />
+        <TextField
+          label="Message"
+          value={formData.message}
+          onChange={handleChange("message")}
+        />
+      </div>
+
+      <button
+        onClick={handleSubmit}
+        className="px-4 py-2 mt-4 bg-indigo-500 rounded 
+        text-white hover:bg-indigo-600"
+      >
+        Submit
+      </button>
+    </div>
+  );
+}
+
+function ShowName({ name }) {
+  return (
+    <p>{name}</p>
+  );
+}
+
+// Parent.jsx
+import Child from "./Child";
+
+export default function Parent() {
+  return (
+    <div className="p-4">
+      <h1>Parent Component</h1>
+      <RenderComponent component={Child} />
+    </div>
+  );
+}
+
+// Function that receives a component
+function RenderComponent({ component: Component }) {
+  return (
+    <div className="mt-4 border p-2">
+      <Component /> {/* Render it */}
+    </div>
+  );
+}
+
+
+const GradientButton = ({ 
+  onClick, 
+  children, 
+  width = 10, 
+  height = 3, 
+  fromColor = "green-500", 
+  toColor = "green-400" 
+}) => {
+  return (
+    <button
+      onClick={onClick}
+      style={{ 
+        width: `${width}rem`, 
+        height: `${height}rem` 
+      }}
+      className={`
+        flex items-center justify-center
+        bg-gradient-to-r from-${fromColor} to-${toColor}
+        hover:brightness-110 active:scale-95
+        text-white font-bold rounded-md shadow-lg
+        transition-all duration-200 self-start
+      `}
+    >
+      {children}
+    </button>
+  );
+};
+import React from "react";
+
+export default function CustomButton({ 
+  children, 
+  onClick, 
+  width = 10, 
+  height = 3, 
+  from = "#22c55e", // Default green-500 hex
+  to = "#4ade80",   // Default green-400 hex
+  className = "" 
+}) {
+  return (
+    <button
+      onClick={onClick}
+      style={{ 
+        width: `${width}rem`, 
+        height: `${height}rem`,
+        background: `linear-gradient(to right, ${from}, ${to})`
+      }}
+      className={`
+        flex items-center justify-center 
+        text-white font-bold rounded-md 
+        shadow-lg transition-all duration-200 
+        hover:brightness-110 active:scale-95 
+        ${className}
+      `}
+    >
+      {children}
+    </button>
+  );
+}
