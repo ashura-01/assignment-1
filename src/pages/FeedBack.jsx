@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import TextField from "../components/TextField";
 import Card from "../components/Card";
 import StarRating from "../components/StarRating";
@@ -16,7 +16,7 @@ export default function FeedBack() {
     rating: "",
     feedbackMessage: "",
   });
-  
+
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
@@ -29,7 +29,7 @@ export default function FeedBack() {
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.firstName.trim()) newErrors.firstName = "First name is required";
     if (!formData.lastName.trim()) newErrors.lastName = "Last name is required";
     if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
@@ -38,16 +38,12 @@ export default function FeedBack() {
     if (!formData.eventDate) newErrors.eventDate = "Event date is required";
     if (!formData.rating) newErrors.rating = "Rating is required";
     if (!formData.feedbackMessage.trim()) newErrors.feedbackMessage = "Feedback message is required";
-    
-    if (formData.phone && !/^\d+$/.test(formData.phone)) {
-      newErrors.phone = "Phone number must contain only digits";
-    }
-    
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (formData.email && !emailRegex.test(formData.email)) {
       newErrors.email = "Please enter a valid email address";
     }
-    
+
     if (formData.email && emailRegex.test(formData.email)) {
       const existingData = JSON.parse(localStorage.getItem("userFeedbacks")) || [];
       const emailExists = existingData.some(
@@ -57,11 +53,11 @@ export default function FeedBack() {
         newErrors.email = "This email address has already been used";
       }
     }
-    
+
     if (formData.rating && (formData.rating < 1 || formData.rating > 5)) {
       newErrors.rating = "Rating must be between 1 and 5";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -99,10 +95,13 @@ export default function FeedBack() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-green-50 text-black p-4">
+    <div className="flex flex-col items-center justify-start min-h-screen bg-green-50 text-black p-4">
       <div className="bg-white p-8 rounded-3xl shadow-xl border border-green-100 flex flex-col items-center">
+
+
+
         <div className="flex flex-col items-start gap-4">
-          <Card width={41} height={5} property={"mb-7 flex text-4xl font-bold text-left align-middle"}>
+          <Card width={41} height={5} property={"mb-7 flex text-4xl font-bold text-left align-middle  bg-green-200"}>
             Feedback Form
           </Card>
 
@@ -139,7 +138,7 @@ export default function FeedBack() {
                 label="Phone Number"
                 value={formData.phone}
                 onChange={handleChange("phone")}
-                type="tel"
+                type="number"
                 height={3}
                 width={20}
               />
@@ -175,21 +174,29 @@ export default function FeedBack() {
                 <p className="text-red-500 text-xs mt-1">{errors.eventName}</p>
               )}
             </div>
+
             <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+
+              <label className="block  text-green-900 font-semibold mb-1 mt-0.5 ">
                 Event Date:
               </label>
               <input
                 type="date"
                 value={formData.eventDate}
                 onChange={(e) => handleChange("eventDate")(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                style={{ height: "2.5rem" }}
+                className="w-full px-3 py-0 pb-1.5 border border-green-700/30  bg-green-100
+                rounded-md 
+                focus:outline-none focus:ring-2 
+                focus:ring-green-500 focus:border-transparent
+                shadow-lg shadow-green-900/20
+                "
+                style={{ height: "2.7rem" }}
               />
               {errors.eventDate && (
                 <p className="text-red-500 text-xs mt-1">{errors.eventDate}</p>
               )}
             </div>
+
           </div>
 
           <div className="flex gap-4">
@@ -211,6 +218,7 @@ export default function FeedBack() {
               label="Feedback Message"
               value={formData.feedbackMessage}
               onChange={handleChange("feedbackMessage")}
+              type="textarea"
               height={10}
               width={41}
             />

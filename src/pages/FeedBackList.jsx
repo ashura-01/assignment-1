@@ -36,7 +36,7 @@ export default function FeedBackList() {
         <div className="flex flex-col items-center justify-start h-screen overflow-y-auto bg-green-50 text-black p-4">
 
             <div className="flex flex-col items-start gap-4">
-                <Card width={41} height={5} property={"mb-7 flex text-4xl font-bold text-left align-middle"}>
+                <Card width={41} height={5} property={"mb-7 flex text-4xl font-bold text-left align-middle  bg-green-200"}>
                     Feedback Dashboard
                 </Card>
             </div>
