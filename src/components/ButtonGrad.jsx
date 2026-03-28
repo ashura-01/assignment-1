@@ -1,10 +1,10 @@
 export default function ButtonGrad({
     children,
     onClick,
-    width = "w-40",     
-    height = "h-12",    
+    width = "w-40",
+    height = "h-12",
     from = "from-green-500",
-    middle="via-green-200" ,
+    middle = "via-green-200",
     to = "to-green-400",
     className = ""
 }) {
